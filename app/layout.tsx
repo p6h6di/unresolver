@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import Navbar from "@/components/Navbar";
 
-const roboto = Roboto({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "500", "700", "900"],
 });
@@ -20,8 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn("text-black h-screen antialiased", roboto.className)}>
-        {children}
+      <body className={poppins.className}>
+        <main className="min-h-screen w-full antialiased">
+          <Navbar />
+          {children}
+        </main>
       </body>
     </html>
   );
