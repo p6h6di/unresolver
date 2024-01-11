@@ -13,9 +13,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter();
   //------ form validation
   const form = useForm<RegisterValidation>({
     resolver: zodResolver(RegisterSchema),
@@ -26,9 +30,43 @@ const RegisterForm = () => {
     },
   });
 
+  //------- sending data to server
+  const { mutate: register, isPending } = useMutation({
+    mutationFn: async ({ username, email, password }: RegisterValidation) => {
+      const payload: RegisterValidation = {
+        username,
+        email,
+        password,
+      };
+      const { data } = await axios.post("/api/auth/register", payload);
+      return data as string;
+    },
+    // handling server errors
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 409) {
+          return toast.error(err.response?.data);
+        }
+        if (err.response?.status === 422) {
+          return toast.error(err.response?.data);
+        }
+      }
+      return toast.error("Could not create an account.");
+    },
+    onSuccess: () => {
+      router.refresh();
+      return router.push("/auth/send-email");
+    },
+  });
+
   //------ preparing data
   const onSubmit = (values: RegisterValidation) => {
-    console.log(values);
+    const payload: RegisterValidation = {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+    };
+    register(payload);
   };
   return (
     <FormWrapper
@@ -51,6 +89,7 @@ const RegisterForm = () => {
                   <FormControl>
                     <Input
                       type="text"
+                      disabled={isPending}
                       placeholder="username"
                       autoComplete="off"
                       {...field}
@@ -69,6 +108,7 @@ const RegisterForm = () => {
                   <FormControl>
                     <Input
                       type="email"
+                      disabled={isPending}
                       placeholder="name@example.com"
                       autoComplete="off"
                       {...field}
@@ -87,6 +127,7 @@ const RegisterForm = () => {
                   <FormControl>
                     <Input
                       type="password"
+                      disabled={isPending}
                       placeholder="••••••••••"
                       {...field}
                     />
@@ -95,9 +136,13 @@ const RegisterForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
-              Continue
-            </Button>
+            {isPending ? (
+              <Button type="submit" isLoading={isPending} className="w-full" />
+            ) : (
+              <Button type="submit" className="w-full">
+                Continue
+              </Button>
+            )}
           </div>
         </form>
       </Form>
