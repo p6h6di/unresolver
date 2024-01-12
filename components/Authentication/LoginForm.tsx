@@ -14,8 +14,13 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();
   //------ form validation
   const form = useForm<LoginValidation>({
     resolver: zodResolver(LoginSchema),
@@ -25,8 +30,42 @@ const LoginForm = () => {
     },
   });
 
+  //------- sending data to server
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: async ({ email, password }: LoginValidation) => {
+      const payload: LoginValidation = {
+        email,
+        password,
+      };
+      const { data } = await axios.post("/api/auth/login", payload);
+      return data as string;
+    },
+    // handling server error
+    onError: (error) => {
+      form.reset();
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 422) {
+          return toast.error("Invalid credentials!");
+        }
+      }
+      return toast.error("Could not login, please try again later.");
+    },
+    // after the user login
+    onSuccess: (data) => {
+      router.refresh();
+      router.push("/");
+      return toast.success(data);
+    },
+  });
+
   //------ preparing data
-  const onSubmit = (values: LoginValidation) => {};
+  const onSubmit = (values: LoginValidation) => {
+    const payload: LoginValidation = {
+      email: values.email,
+      password: values.password,
+    };
+    login(payload);
+  };
   return (
     <FormWrapper
       authLabel="Welcome back"
@@ -48,6 +87,7 @@ const LoginForm = () => {
                   <FormControl>
                     <Input
                       type="email"
+                      disabled={isPending}
                       placeholder="name@example.com"
                       {...field}
                     />
@@ -66,6 +106,7 @@ const LoginForm = () => {
                     <FormControl>
                       <Input
                         type="password"
+                        disabled={isPending}
                         placeholder="••••••••••"
                         {...field}
                       />
@@ -85,9 +126,13 @@ const LoginForm = () => {
                 </Link>
               </div>
             </div>
-            <Button type="submit" className="w-full">
-              Continue
-            </Button>
+            {isPending ? (
+              <Button type="submit" isLoading={isPending} className="w-full" />
+            ) : (
+              <Button type="submit" className="w-full">
+                Continue
+              </Button>
+            )}
           </div>
         </form>
       </Form>

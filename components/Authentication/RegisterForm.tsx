@@ -44,15 +44,16 @@ const RegisterForm = () => {
     // handling server errors
     onError: (err) => {
       if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
+        if (err.response?.status === 400) {
           return toast.error(err.response?.data);
         }
-        if (err.response?.status === 422) {
+        if (err.response?.status === 409) {
           return toast.error(err.response?.data);
         }
       }
       return toast.error("Could not create an account.");
     },
+    // after the user register
     onSuccess: () => {
       router.refresh();
       return router.push("/auth/send-email");

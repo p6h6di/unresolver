@@ -1,10 +1,12 @@
 import { Lightbulb } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import Searchfield from "./Searchfield";
+import { auth, signOut } from "@/lib/auth";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth();
   return (
     //----------- FIX: Navbar is not responsive
     <nav className="fixed top-0 flex w-full h-14 bg-gradient-to-r from-slate-100 via-slate-100 to-slate-100 border-b border-gray-200 backdrop-blur-2xl">
@@ -19,9 +21,22 @@ const Navbar = () => {
           <Searchfield />
         </div>
         <div className="flex-none">
-          <Link href="/auth/login" className={buttonVariants()}>
-            Login
-          </Link>
+          {session?.user ? (
+            <form
+              action={async () => {
+                "use server";
+
+                await signOut();
+              }}
+            >
+              <span>{session.user.email}</span>
+              <Button type="submit">Logout</Button>
+            </form>
+          ) : (
+            <Link href="/auth/login" className={buttonVariants()}>
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </nav>

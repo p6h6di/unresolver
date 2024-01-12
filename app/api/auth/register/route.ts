@@ -10,7 +10,7 @@ export async function POST(req: Request) {
         // body validation
         const validateFields = RegisterSchema.safeParse(body)
         if(!validateFields.success) {
-            return new Response('Invalid fields.', { status: 422 })
+            return new Response('Invalid fields.', { status: 400 })
         }
         const { username, email, password } = validateFields.data
     
