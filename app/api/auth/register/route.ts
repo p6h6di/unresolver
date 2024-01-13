@@ -1,3 +1,5 @@
+import { sendVerificationEmail } from "@/lib/resend";
+import { generateVerificationToken } from "@/lib/token";
 import { RegisterSchema } from "@/lib/validation/auth";
 import { prisma } from "@/prisma/client";
 import bcrypt from 'bcryptjs'
@@ -46,7 +48,16 @@ export async function POST(req: Request) {
             }
         })
 
-        return new Response('User created!', {status: 200})
+        // generate verification token
+        const verificationToken = await generateVerificationToken(email)
+
+        // send verification email
+        await sendVerificationEmail(
+            verificationToken.email,
+            verificationToken.token
+        )
+
+        return new Response('Confirmation email sent!', {status: 200})
         
     } catch (error) {
         return new Response('Could not create an account.', { status: 500 })

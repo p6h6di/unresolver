@@ -1,6 +1,9 @@
 import { LoginSchema } from "@/lib/validation/auth";
 import { signIn } from "@/lib/auth";
 import { AuthError } from "next-auth";
+import { getUserByEmail } from "@/data";
+import { generateVerificationToken } from "@/lib/token";
+import { sendVerificationEmail } from "@/lib/resend";
 
 export async function POST(req: Request) {
     try {   
@@ -13,6 +16,21 @@ export async function POST(req: Request) {
             return new Response('Invalid fields.', { status: 400 })
         }
         const { email, password } = validateFields.data;
+
+        // if user email is not verified
+        const existedUser = await getUserByEmail(email)
+        if(!existedUser || !existedUser.email || !existedUser.password) {
+            return new Response('Invalid credentials!', { status: 422 })
+        }
+        if(!existedUser.emailVerified) {
+            const verificationToken = await generateVerificationToken(existedUser.email)
+            // send verification email
+            await sendVerificationEmail(
+                verificationToken.email,
+                verificationToken.token
+                )
+            }
+
     
         // next-auth
         try {
@@ -31,7 +49,7 @@ export async function POST(req: Request) {
         }    
         
         // sending res
-        return new Response('User logged in successfully.', { status: 201 })
+        return new Response('verification', { status: 201 })
     } catch (error) {
          return new Response('Could not login, please try again later', { status: 500 })       
     }

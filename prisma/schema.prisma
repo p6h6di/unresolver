@@ -33,11 +33,20 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   username      String?   @unique
-  email         String    @unique
+  email         String?   @unique
   password      String?
   emailVerified DateTime?
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now())
   accounts      Account[]
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
 }

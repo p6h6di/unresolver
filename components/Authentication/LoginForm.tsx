@@ -55,8 +55,10 @@ const LoginForm = () => {
     // after the user login
     onSuccess: (data) => {
       router.refresh();
-      router.push("/");
-      return toast.success(data);
+      if (data === "verification") {
+        return router.push("/auth/send-email");
+      }
+      return toast.success("User logged in successfully.");
     },
   });
 
