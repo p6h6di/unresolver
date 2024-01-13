@@ -1,12 +1,10 @@
 "use client";
 
 // import { Button } from "@/components/ui/button";
-import { Mail, MoreHorizontal, RotateCw } from "lucide-react";
+import { Mail, RotateCw } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const SendEmail = () => {
-  const router = useRouter();
   return (
     <div className="flex flex-col items-center">
       <Mail className="w-7 h-7 mb-2" />

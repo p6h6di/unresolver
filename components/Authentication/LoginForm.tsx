@@ -17,10 +17,12 @@ import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   //------ form validation
   const form = useForm<LoginValidation>({
     resolver: zodResolver(LoginSchema),
@@ -66,6 +68,17 @@ const LoginForm = () => {
     };
     login(payload);
   };
+
+  //------- social providers error handling
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked" ? (
+      <p className="text-xs text-red-500">
+        Another account already exists with the same e-mail address.
+      </p>
+    ) : (
+      ""
+    );
+
   return (
     <FormWrapper
       authLabel="Welcome back"
@@ -120,7 +133,7 @@ const LoginForm = () => {
                 <Link
                   href="/auth/reset"
                   className="text-xs font-medium text-muted-foreground hover:text-black
-                 hover:underline"
+                  hover:underline"
                 >
                   Forget password?
                 </Link>
@@ -133,6 +146,7 @@ const LoginForm = () => {
                 Continue
               </Button>
             )}
+            {urlError}
           </div>
         </form>
       </Form>
