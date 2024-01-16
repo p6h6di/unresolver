@@ -23,7 +23,7 @@ const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  //------ form validation
+  // ------ form validation
   const form = useForm<LoginValidation>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -32,7 +32,7 @@ const LoginForm = () => {
     },
   });
 
-  //------- sending data to server
+  // ------- sending data to server
   const { mutate: login, isPending } = useMutation({
     mutationFn: async ({ email, password }: LoginValidation) => {
       const payload: LoginValidation = {
@@ -55,14 +55,16 @@ const LoginForm = () => {
     // after the user login
     onSuccess: (data) => {
       router.refresh();
-      if (data === "verification") {
+      if (data === "logged in") {
+        return router.push("/");
+      } else {
         return router.push("/auth/send-email");
       }
-      return toast.success("User logged in successfully.");
+      // return toast.success("User logged in successfully.");
     },
   });
 
-  //------ preparing data
+  // ------ preparing data
   const onSubmit = (values: LoginValidation) => {
     const payload: LoginValidation = {
       email: values.email,
@@ -71,10 +73,10 @@ const LoginForm = () => {
     login(payload);
   };
 
-  //------- social providers error handling
+  // ------- social providers error handling
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked" ? (
-      <p className="text-xs text-red-500">
+      <p className="text-left text-xs text-red-500">
         Another account already exists with the same e-mail address.
       </p>
     ) : (
@@ -91,8 +93,8 @@ const LoginForm = () => {
       authFooter="By clicking continue, you agree to our Terms of Service and Privacy Policy."
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full my-4">
-          <div className="space-y-2.5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="my-4 w-full">
+          <div className="space-y-2.5 text-left">
             {/* EMAIL_INPUT_FIELD */}
             <FormField
               control={form.control}
@@ -130,7 +132,7 @@ const LoginForm = () => {
                   </FormItem>
                 )}
               />
-              <div className="absolute top-1.5 bottom-0 right-2">
+              <div className="absolute bottom-0 right-2 top-1.5">
                 {/* RESET_PASSWORD_LINK */}
                 <Link
                   href="/auth/reset"

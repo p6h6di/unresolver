@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const router = useRouter();
-  //------ form validation
+  // ------ form validation
   const form = useForm<RegisterValidation>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -30,7 +30,7 @@ const RegisterForm = () => {
     },
   });
 
-  //------- sending data to server
+  // ------- sending data to server
   const { mutate: register, isPending } = useMutation({
     mutationFn: async ({ username, email, password }: RegisterValidation) => {
       const payload: RegisterValidation = {
@@ -60,7 +60,7 @@ const RegisterForm = () => {
     },
   });
 
-  //------ preparing data
+  // ------ preparing data
   const onSubmit = (values: RegisterValidation) => {
     const payload: RegisterValidation = {
       username: values.username,
@@ -79,8 +79,8 @@ const RegisterForm = () => {
       authFooter="By clicking continue, you agree to our Terms of Service and Privacy Policy."
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full my-4">
-          <div className="space-y-2.5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="my-4 w-full">
+          <div className="space-y-2.5 text-left">
             {/* USERNAME_INPUT_FIELD */}
             <FormField
               control={form.control}

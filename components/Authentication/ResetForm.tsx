@@ -15,7 +15,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
 const ResetForm = () => {
-  //------ form validation
+  // ------ form validation
   const form = useForm<ResetValidation>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
@@ -23,7 +23,7 @@ const ResetForm = () => {
     },
   });
 
-  //------ preparing data
+  // ------ preparing data
   const onSubmit = (values: ResetValidation) => {};
   return (
     <FormWrapper
@@ -35,8 +35,8 @@ const ResetForm = () => {
       you an email with instructions to reset your password."
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full my-4">
-          <div className="space-y-2.5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="my-4 w-full">
+          <div className="space-y-2.5 text-left">
             {/* EMAIL_INPUT_FIELD */}
             <FormField
               control={form.control}

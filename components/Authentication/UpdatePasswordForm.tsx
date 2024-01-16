@@ -18,7 +18,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
 const UpdatePasswordForm = () => {
-  //------ form validation
+  // ------ form validation
   const form = useForm<UpdatePasswordValidation>({
     resolver: zodResolver(UpdatePasswordSchema),
     defaultValues: {
@@ -27,7 +27,7 @@ const UpdatePasswordForm = () => {
     },
   });
 
-  //------ preparing data
+  // ------ preparing data
   const onSubmit = (values: UpdatePasswordValidation) => {};
   return (
     <FormWrapper
@@ -38,8 +38,8 @@ const UpdatePasswordForm = () => {
       authFooter=""
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full my-4">
-          <div className="space-y-2.5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="my-4 w-full">
+          <div className="space-y-2.5 text-left">
             {/* NEW_PASSWORD_INPUT_FIELD */}
             <FormField
               control={form.control}

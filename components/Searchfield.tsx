@@ -1,21 +1,19 @@
-import { Search, SearchCheck } from "lucide-react";
 import React from "react";
-import { Input } from "./ui/input";
+import { Icons } from "./Icons";
 
-const Searchfield = () => {
+const SearchField = () => {
   return (
-    //------------ FIX: Search field in not working properly
     <div className="relative mx-14">
-      {/* <span className="absolute text-xs left-0 w-12 inset-y-0 grid place-items-center text-gray-300">
-        <Search />
-      </span> */}
-      <Input
+      <input
         type="text"
+        className="z-0 h-10 w-full rounded-md  pl-10 pr-20 text-sm font-medium focus:outline-none"
         placeholder="Search communities..."
-        className="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
       />
+      <div className="absolute left-2.5 top-2.5 ">
+        <Icons.search className="h-5 w-5" />
+      </div>
     </div>
   );
 };
 
-export default Searchfield;
+export default SearchField;

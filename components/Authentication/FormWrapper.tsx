@@ -1,7 +1,7 @@
-import { Lightbulb } from "lucide-react";
+import React from "react";
 import Link from "next/link";
-import { Separator } from "../ui/separator";
 import SocialAccounts from "./SocialAccounts";
+import { Icons } from "../Icons";
 
 interface FormWrapperProps {
   children: React.ReactNode;
@@ -23,38 +23,45 @@ const FormWrapper = ({
   authFooter,
 }: FormWrapperProps) => {
   return (
-    <div className="flex flex-col items-center w-[420px]  p-8">
-      {/* <div className="border p-2 rounded-md block"> */}
-      <Lightbulb strokeWidth={2.5} className="w-8 h-8" />
-      {/* </div> */}
-      <h1 className="text-2xl font-bold mt-2 text-center">{authLabel}</h1>
-      <p className="text-sm text-muted-foreground text-center">
-        <span>{authLead}</span>
-        <Link
-          href={authLinkhref}
-          className="text-blue-600 ml-1 hover:underline"
-        >
-          {authLinklabel}
-        </Link>
-      </p>
-      {children}
+    <div className="mx-auto w-full max-w-md overflow-hidden">
+      <div className="md:flex">
+        <div className="w-full p-5">
+          <div className="text-center">
+            <div className="flex justify-center">
+              <Icons.logo className=" h-8 w-8" />
+            </div>
+            <h1 className="mt-2  text-2xl font-bold">{authLabel}</h1>
+            <p className="text-sm text-muted-foreground">
+              <span>{authLead}</span>
+              <Link
+                href={authLinkhref}
+                className="ml-1 text-blue-600 hover:underline"
+              >
+                {authLinklabel}
+              </Link>
+            </p>
+            {children}
+            {showSocial && (
+              <>
+                <div className="flex items-center">
+                  <div className="grow border-b border-zinc-200"></div>
+                  <span className="mx-2 text-xs font-medium text-muted-foreground">
+                    OR CONTINUE WITH
+                  </span>
+                  <div className="grow border-b border-zinc-200"></div>
+                </div>
 
-      {showSocial && (
-        <>
-          <div className="flex items-center w-full">
-            <Separator className="w-28" />
-            <span className="text-muted-foreground text-xs mx-2 font-medium">
-              OR CONTINUE WITH
-            </span>
-            <Separator className="w-28" />
+                <div className="mb-2 mt-3 flex w-full items-center justify-between gap-x-2">
+                  <SocialAccounts />
+                </div>
+              </>
+            )}
+            <p className="text-left text-xs text-muted-foreground">
+              {authFooter}
+            </p>
           </div>
-          <div className="flex w-full items-center justify-between gap-x-2 mb-2 mt-3">
-            <SocialAccounts />
-          </div>
-        </>
-      )}
-
-      <p className="text-xs text-muted-foreground text-center">{authFooter}</p>
+        </div>
+      </div>
     </div>
   );
 };
