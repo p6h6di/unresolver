@@ -1,5 +1,10 @@
 //* * routes that are accessible to public*/
-export const publicRoutes = ["/", "/auth/send-email", "/auth/verify-email"];
+export const publicRoutes = [
+  "/",
+  "/auth/send-email",
+  "/auth/verify-email",
+  "/auth/error",
+];
 
 //* * routes that are used to authentication */
 export const authRoutes = [
