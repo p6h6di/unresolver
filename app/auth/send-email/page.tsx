@@ -1,7 +1,6 @@
 "use client";
 
 import { Icons } from "@/components/Icons";
-import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 
@@ -21,12 +20,9 @@ const SendEmail = () => {
             </p>
             <Link
               href="/auth/login"
-              className={buttonVariants({
-                variant: "link",
-                className: "text-blue-700",
-              })}
+              className="text-center text-sm text-blue-500 hover:underline"
             >
-              <span>Go to login</span>
+              Go to login
             </Link>
           </div>
         </div>

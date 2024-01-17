@@ -1,21 +1,40 @@
-import { ShieldX } from "lucide-react";
+"use client";
+
+import React, { useEffect } from "react";
 import Link from "next/link";
-import React from "react";
+import lottie from "lottie-web";
 
 const ErrorPage = () => {
+  useEffect(() => {
+    const container = document.getElementById("lottie-container");
+    const animation = lottie.loadAnimation({
+      // @ts-expect-error
+      container,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: "/error.json",
+    });
+
+    return () => {
+      animation.destroy(); // Clean up the animation when the component unmounts
+    };
+  }, []);
   return (
-    <div className="flex flex-col items-center">
-      <ShieldX className="mb-2.5 h-8 w-8 text-red-500" />
-      <h1 className="mb-1 text-center text-2xl font-bold">
+    <div className="flex flex-col items-center justify-center rounded-lg p-4">
+      <div id="lottie-container" className="mb-4 h-48 w-48"></div>
+      <h1 className="mb-1.5 text-center text-xl font-bold md:text-3xl">
         Oops! something went wrong
       </h1>
+      <p className="mb-1.5 text-center text-xs text-muted-foreground">
+        An error occurred while processing your request. Please try again later.
+      </p>
       <Link
         href="/auth/login"
         className="mt-1 text-center text-sm text-blue-500 hover:underline"
       >
         Go back to login.
       </Link>
-      {/* <RotateCw className="w-8 h-8 animate-spin" /> */}
     </div>
   );
 };

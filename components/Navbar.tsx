@@ -31,7 +31,6 @@ const Navbar = async () => {
                   await signOut();
                 }}
               >
-                <span>{session.user.email}</span>
                 <Button type="submit">Logout</Button>
               </form>
             ) : (

@@ -18,7 +18,7 @@ const SocialAccounts = () => {
         className="w-full"
         onClick={() => onClick("google")}
       >
-        <Icons.google className="mr-2 h-5 w-5" />
+        <Icons.google className="mr-2 h-[18px] w-[18px]" />
         <span className="text-sm font-medium">Google</span>
       </Button>
       <Button
@@ -26,7 +26,7 @@ const SocialAccounts = () => {
         className="w-full"
         onClick={() => onClick("github")}
       >
-        <Icons.github className="mr-2 h-5 w-5" />
+        <Icons.github className="mr-2 h-[18px] w-[18px]" />
         <span className="text-sm font-medium">Github</span>
       </Button>
     </>

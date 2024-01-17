@@ -55,12 +55,10 @@ const LoginForm = () => {
     // after the user login
     onSuccess: (data) => {
       router.refresh();
-      if (data === "logged in") {
-        return router.push("/");
-      } else {
-        return router.push("/auth/send-email");
-      }
-      // return toast.success("User logged in successfully.");
+      // if (data === "verification") {
+      //   return router.push("/auth/send-email");
+      // }
+      return toast.success("User logged in successfully.");
     },
   });
 

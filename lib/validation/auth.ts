@@ -11,9 +11,10 @@ export const LoginSchema = z.object({
 export const RegisterSchema = z.object({
   username: z
     .string()
-    .toLowerCase()
-    .min(6, { message: "Username must be at least 6 characters" })
-    .transform((value) => value.replace(/\s+/g, "")),
+    .regex(/^[a-z-0-9]([._](?![._])|[a-z-0-9]){6,18}[a-z-0-9]$/, {
+      message:
+        "A minimum 8 characters username contains a combination of lowercase letter and number",
+    }),
   email: z.string().email({ message: "Email address is invalid" }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters",

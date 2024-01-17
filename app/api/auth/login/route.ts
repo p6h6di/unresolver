@@ -4,6 +4,7 @@ import { AuthError } from "next-auth";
 import { getUserByEmail } from "@/data";
 import { generateVerificationToken } from "@/lib/token";
 import { sendVerificationEmail } from "@/lib/resend";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export async function POST(req: Request) {
   try {
@@ -31,6 +32,7 @@ export async function POST(req: Request) {
         verificationToken.email,
         verificationToken.token
       );
+      // return new Response("", { status: 403 });
     }
 
     // next-auth
@@ -38,7 +40,7 @@ export async function POST(req: Request) {
       await signIn("credentials", {
         email,
         password,
-        redirectTo: "/",
+        redirectTo: DEFAULT_LOGIN_REDIRECT,
       });
     } catch (error) {
       if (error instanceof AuthError) {
@@ -49,7 +51,7 @@ export async function POST(req: Request) {
     }
 
     // sending res
-    return new Response("logged in", { status: 201 });
+    return new Response("logging in", { status: 201 });
   } catch (error) {
     return new Response("Could not login, please try again later", {
       status: 500,
