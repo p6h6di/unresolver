@@ -1,7 +1,7 @@
 import React from "react";
 import { Icons } from "./Icons";
 
-const SearchField = () => {
+const Searchfield = () => {
   return (
     <div className="relative mx-14">
       <input
@@ -16,4 +16,4 @@ const SearchField = () => {
   );
 };
 
-export default SearchField;
+export default Searchfield;

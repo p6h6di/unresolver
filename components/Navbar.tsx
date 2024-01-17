@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { Button, buttonVariants } from "./ui/button";
 import { auth, signOut } from "@/lib/auth";
-import SearchField from "@/components/SearchField";
+import Searchfield from "./Searchfield";
 import { Icons } from "./Icons";
 
 const Navbar = async () => {
@@ -20,7 +20,7 @@ const Navbar = async () => {
           </div>
           {/* SEARCH_INPUT_FIELD */}
           <div className="hidden w-full flex-1 md:block md:w-auto">
-            <SearchField />
+            <Searchfield />
           </div>
           <div className="flex items-center">
             {session?.user ? (
