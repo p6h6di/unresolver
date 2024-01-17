@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { Button, buttonVariants } from "./ui/button";
 import { auth, signOut } from "@/lib/auth";
-import SearchField from "./SearchField";
+import SearchField from "@/components/SearchField";
 import { Icons } from "./Icons";
 
 const Navbar = async () => {

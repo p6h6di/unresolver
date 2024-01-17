@@ -3,8 +3,8 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
 import { LoginSchema } from "./lib/validation/auth";
-import { prisma } from "./prisma/client";
 import bcrypt from "bcryptjs";
+import { getUserByEmail } from "./data";
 
 export default {
   providers: [
@@ -40,11 +40,7 @@ export default {
           const { email, password } = validatedFields.data;
 
           // user create account with social providers and login with credentials then return null
-          const user = await prisma.user.findUnique({
-            where: {
-              email,
-            },
-          });
+          const user = await getUserByEmail(email);
           if (!user || !user.password) return null;
 
           // matching passwords
