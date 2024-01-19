@@ -5,9 +5,9 @@ import React, { useEffect, useRef } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/app/page";
 import PostWrapper from "./PostWrapper";
 import { Loader2 } from "lucide-react";
+import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 
 interface PostFeedProps {
   initialPosts: ExtendedPost[];
@@ -23,7 +23,7 @@ const PostFeed = ({ initialPosts }: PostFeedProps) => {
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ["infinite-post-query"],
     queryFn: async ({ pageParam = 1 }) => {
-      const query = `/api/posts?limit=${INFINITE_SCROLLING_PAGINATION_RESULTS}&page=${pageParam}`;
+      const query = `/api/posts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}`;
       const { data } = await axios.get(query);
       return data as ExtendedPost[];
     },

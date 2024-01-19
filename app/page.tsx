@@ -1,8 +1,7 @@
 import PostFeed from "@/components/PostFeed";
+import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/prisma/client";
-
-export const INFINITE_SCROLLING_PAGINATION_RESULTS = 2;
 
 export default async function Home() {
   const session = await auth();
@@ -18,7 +17,7 @@ export default async function Home() {
     orderBy: {
       createdAt: "desc",
     },
-    take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+    take: INFINITE_SCROLL_PAGINATION_RESULTS,
   });
   return (
     <div className="mx-auto mt-8 w-4/5 md:my-12 md:w-1/2">

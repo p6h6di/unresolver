@@ -97,7 +97,9 @@ const Editor = () => {
   useEffect(() => {
     if (Object.keys(errors).length) {
       for (const [_key, value] of Object.entries(errors)) {
-        toast.error((value as { message: string }).message);
+        toast.error((value as { message: string }).message, {
+          description: <p>{_key}</p>,
+        });
       }
     }
   }, [errors]);
