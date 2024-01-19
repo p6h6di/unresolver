@@ -26,6 +26,17 @@ const formatDistanceLocale = {
   almostXYears: "{{count}}y",
 };
 
+/**
+ * Formats a distance string based on the provided token, count, and options.
+ *
+ * @param {string} token - The token to be used for formatting.
+ * @param {number} count - The count to be inserted into the formatted string.
+ * @param {Object} [options] - Optional parameters for formatting.
+ * @param {boolean} [options.addSuffix] - Whether to add a suffix to the formatted string.
+ * @param {number} [options.comparison] - If addSuffix is true, determines whether the suffix is "in" (for positive values) or "ago" (for non-positive values).
+ * @returns {string} The formatted distance string.
+ */
+
 function formatDistance(token: string, count: number, options?: any): string {
   options = options || {};
 
@@ -44,6 +55,13 @@ function formatDistance(token: string, count: number, options?: any): string {
 
   return result;
 }
+
+/**
+ * Formats the given date to a string representing the time distance to now.
+ *
+ * @param {Date} date - The date to be formatted.
+ * @returns {string} - The formatted string representing the time distance to now.
+ */
 
 export function formatTimeToNow(date: Date): string {
   return formatDistanceToNowStrict(date, {
