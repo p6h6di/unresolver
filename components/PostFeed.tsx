@@ -1,12 +1,13 @@
 "use client";
 
 import { ExtendedPost } from "@/types/prisma";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/app/page";
 import PostWrapper from "./PostWrapper";
+import { Loader2 } from "lucide-react";
 
 interface PostFeedProps {
   initialPosts: ExtendedPost[];
@@ -30,8 +31,14 @@ const PostFeed = ({ initialPosts }: PostFeedProps) => {
       return pages.length + 1;
     },
     initialPageParam: 1,
-    initialData: { pages: [initialPosts], pageParams: [1] },
+    initialData: { pages: [], pageParams: [1] },
   });
+
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
 
   const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
   return (
@@ -48,6 +55,12 @@ const PostFeed = ({ initialPosts }: PostFeedProps) => {
           return <PostWrapper key={post.id} post={post} />;
         }
       })}
+
+      {isFetchingNextPage && (
+        <li className="flex justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-black" />
+        </li>
+      )}
     </ul>
   );
 };

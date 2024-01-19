@@ -108,7 +108,9 @@ const Editor = () => {
 
       setTimeout(() => {
         // set focus to title
-        // _titleRef.current?.focus();
+        // if (_titleRef.current) {
+        //   _titleRef.current?.focus();
+        // }
       }, 0);
     };
 
